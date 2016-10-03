@@ -6,7 +6,7 @@ describe Oystercard do
   expect(subject.balance).to eq 0
   end
 
-  it 'balance can be topped up' do
+  it 'has a balance that can be topped up' do
     expect(subject.top_up(40)).to eq subject.balance
   end
 
@@ -16,11 +16,11 @@ describe Oystercard do
     expect { subject.top_up(value) }.to raise_error message
   end
 
-  it 'decreases the balance' do
+  it 'has a balance that can be reduced' do
     subject.top_up(40)
-    expect(subject.deduct(30)).to eq subject.balance
+    expect(subject.touch_out).to eq subject.balance
   end
-  
+
   context 'with balance' do
     before :example do
       subject.top_up(20)
@@ -31,11 +31,15 @@ describe Oystercard do
     it 'records that the card is within a journey after touching in, before touching out' do
       expect(subject.touch_in).to eq subject.in_journey?
     end
+
+    it 'decreases balance by the minimum fare on touching out' do
+    expect {subject.touch_out}.to change{subject.balance}.by(-Oystercard::MINIMUM_FARE)
+    end
   end
 
-
   it 'records the end of a journey' do
-    expect(subject.touch_out).to be false
+    subject.touch_out
+    expect(subject.in_journey?).to be false
   end
 
   it 'raises an error if the balance is too low' do
