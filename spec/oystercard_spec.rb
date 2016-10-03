@@ -19,4 +19,17 @@ describe Oystercard do
     subject.top_up(40)
     expect(subject.deduct(30)).to eq subject.balance
   end
+
+  it 'records the start of a journey' do
+    expect(subject.touch_in).to be true
+  end
+
+  it 'records the end of a journey' do
+    expect(subject.touch_out).to be false
+  end
+
+  it 'records that the card is within a journey after touching in, before touching out' do
+    expect(subject.touch_in).to eq subject.in_journey?
+  end
+
 end
