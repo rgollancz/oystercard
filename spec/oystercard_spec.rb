@@ -6,7 +6,7 @@ describe Oystercard do
   let(:bank) {double :station}
 
   it 'has a empty list of journeys by default' do
-    expect(card.journeys).to eq []
+    expect(card.journeys).to be_empty
   end
 
   it 'has a balance of 0 by default' do
