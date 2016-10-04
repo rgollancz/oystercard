@@ -5,16 +5,20 @@ describe Oystercard do
   let(:angel) {double :station}
   let(:bank) {double :station}
 
+  it 'has a empty list of journeys by default' do
+    expect(card.journeys).to eq []
+  end
+
   it 'has a balance of 0 by default' do
     expect(card.balance).to eq 0
   end
 
   it 'has a balance that can be topped up' do
-    expect(card.top_up(40)).to eq card.balance
+    expect(card.top_up(Oystercard::MAXIMUM_BALANCE)).to eq card.balance
   end
 
   it 'raises an error if the maximum balance is exceeded' do
-    value = 100
+    value = Oystercard::MAXIMUM_BALANCE + 1
     message = "Maximum balance of #{Oystercard::MAXIMUM_BALANCE} exceeded by £#{(value + card.balance)-Oystercard::MAXIMUM_BALANCE}"
     expect { card.top_up(value) }.to raise_error message
   end
@@ -52,6 +56,9 @@ describe Oystercard do
     end
     it 'resest entry station on touching out' do
       expect(card.exit_station).to eq bank
+    end
+    it 'records previous journeys' do
+      expect(card.journeys).to eq [{angel => bank}]
     end
   end
 
