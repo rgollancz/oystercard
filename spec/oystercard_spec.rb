@@ -37,15 +37,17 @@ describe Oystercard do
     it 'records that the card is within a journey after touching in, before touching out' do
       expect(card).to be_in_journey
     end
-
     it 'decreases balance by the minimum fare on touching out' do
     expect {card.touch_out}.to change{card.balance}.by(-Oystercard::MINIMUM_FARE)
     end
-  end
-
-  it 'records the end of a journey' do
-    card.touch_out
-    expect(card).not_to be_in_journey
+    it 'records the end of a journey' do
+      card.touch_out
+      expect(card).not_to be_in_journey
+    end
+    it 'resest entry station on touching out' do
+      card.touch_out
+      expect(card.entry_station).to eq nil
+    end
   end
 
   it 'raises an error if the balance is too low' do
