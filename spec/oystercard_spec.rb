@@ -2,8 +2,8 @@ require 'oystercard'
 
 describe Oystercard do
   subject(:card) {described_class.new}
-  let(:angel) { [double(name: :angel), double(zone: 1)] }
-  let(:bank) { [double(name: :bank), double(zone: 2)] }
+  let(:angel) { double :station, name: :angel, zone: 1 }
+  let(:bank) { double :station, name: :bank, zone: 2 }
 
   it 'has a empty list of journeys by default' do
     expect(card.journeys).to be_empty
@@ -27,6 +27,7 @@ describe Oystercard do
     before :example do
       card.top_up(20)
       card.touch_in(angel)
+      p angel
     end
     it 'records that it has been touched in' do
       expect(card).to be_in_journey

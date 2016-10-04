@@ -41,7 +41,6 @@ class Oystercard
 
   def add_journey
     current_journey = {@entry_station => @exit_station}
-    # current_journey = {{@entry_station.name => @entry_station.zone} => {@exit_station}}
     @journeys << current_journey
   end
 end
