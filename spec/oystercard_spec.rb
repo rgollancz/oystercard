@@ -2,8 +2,8 @@ require 'oystercard'
 
 describe Oystercard do
   subject(:card) {described_class.new}
-  let(:angel) {double :station}
-  let(:bank) {double :station}
+  let(:angel) { [double(name: :angel), double(zone: 1)] }
+  let(:bank) { [double(name: :bank), double(zone: 2)] }
 
   it 'has a empty list of journeys by default' do
     expect(card.journeys).to be_empty
@@ -65,5 +65,4 @@ describe Oystercard do
   it 'raises an error if the balance is too low' do
     expect { card.touch_in(angel) }.to raise_error 'Balance is too low'
   end
-
 end

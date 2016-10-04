@@ -11,7 +11,7 @@ class Oystercard
     @balance = 0
     @journeys = []
   end
-  
+
   def top_up(value)
     total_value = value + @balance
     raise "Maximum balance of #{Oystercard::MAXIMUM_BALANCE} exceeded by £#{(total_value) - MAXIMUM_BALANCE}" if total_value > MAXIMUM_BALANCE
@@ -41,6 +41,7 @@ class Oystercard
 
   def add_journey
     current_journey = {@entry_station => @exit_station}
+    # current_journey = {{@entry_station.name => @entry_station.zone} => {@exit_station}}
     @journeys << current_journey
   end
 end
