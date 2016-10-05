@@ -27,7 +27,6 @@ describe Oystercard do
     before :example do
       card.top_up(20)
       card.touch_in(angel)
-      p angel
     end
     it 'records that it has been touched in' do
       expect(card).to be_in_journey
@@ -37,6 +36,9 @@ describe Oystercard do
     end
     it 'decreases balance by the minimum fare on touching out' do
       expect {card.touch_out(bank)}.to change{card.balance}.by(-Oystercard::MINIMUM_FARE)
+    end
+    it 'charges penalty fare on double touch in' do
+      expect {card.touch_in(bank)}.to change{card.balance}.by(-Oystercard::PENALTY_FARE)
     end
   end
 
@@ -52,14 +54,17 @@ describe Oystercard do
     it 'records the end of a journey' do
       expect(card).not_to be_in_journey
     end
-    it 'resest entry station on touching out' do
+    it 'resets entry station on touching out' do
       expect(card.entry_station).to eq nil
     end
-    it 'resest entry station on touching out' do
+    it 'sets exit station on touching out' do
       expect(card.exit_station).to eq bank
     end
     it 'records previous journeys' do
       expect(card.journeys).to eq [{angel => bank}]
+    end
+    it 'charges penalty fare on double touch out' do
+      expect {card.touch_out(bank)}.to change{card.balance}.by(-Oystercard::PENALTY_FARE)
     end
   end
 
