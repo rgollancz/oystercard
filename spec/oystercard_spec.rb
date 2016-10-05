@@ -3,7 +3,7 @@ require 'oystercard'
 describe Oystercard do
   subject(:card) {described_class.new}
   let(:angel) { double :station, name: :angel, zone: 1 }
-  let(:bank) { double :station, name: :bank, zone: 2 }
+  let(:bank) { double :station, name: :bank, zone: 4 }
 
   it 'has a empty list of journeys by default' do
     expect(card.journeys).to be_empty
@@ -31,9 +31,9 @@ describe Oystercard do
     it 'records that it has been touched in' do
       expect(card).to be_in_journey
     end
-    it 'records the name of the entry station' do
-      expect(card.entry_station).to eq angel
-    end
+    # it 'records the name of the entry station' do
+    #   expect(card.entry_station).to eq angel
+    # end
     it 'decreases balance by the minimum fare on touching out' do
       expect {card.touch_out(bank)}.to change{card.balance}.by(-Oystercard::MINIMUM_FARE)
     end
